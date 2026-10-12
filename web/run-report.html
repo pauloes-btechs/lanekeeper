@@ -1,0 +1,145 @@
+<title>Lanekeeper Run Report</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Overpass:wght@400;600;800;900&family=Overpass+Mono:wght@400;600&display=swap">
+<style>
+/* Layout: a posted notice for riders. Verdict first, then the lane strip, then the log. Phone-first: most people arrive from a QR code. */
+:root {
+  --night: #080c15; --asphalt: #111827; --curb: #1c2536; --ink: #e9ecf2; --muted: #8d97ab;
+  --sodium: #ffad4d; --lane: #3d9b6a; --glint: #9fe8ff;
+  --display: "Overpass", "Arial Narrow", system-ui, sans-serif;
+  --mono: "Overpass Mono", ui-monospace, Menlo, monospace;
+  color-scheme: dark;
+}
+* { box-sizing: border-box; }
+html, body { background: var(--night); color: var(--ink); }
+body { margin: 0; font-family: var(--display); font-size: 16px; line-height: 1.55; -webkit-font-smoothing: antialiased; }
+main { max-width: 720px; margin: 0 auto; padding-inline: 18px; padding-block: 24px 48px; display: grid; gap: 28px; }
+.mono { font-family: var(--mono); font-variant-numeric: tabular-nums; }
+.brand { display: flex; justify-content: space-between; align-items: center; gap: 12px; flex-wrap: wrap; font-family: var(--mono); font-size: 12px; color: var(--muted); }
+.brand b { font-family: var(--display); font-weight: 900; font-size: 18px; color: var(--ink); letter-spacing: .02em; display: inline-flex; align-items: center; gap: 8px; }
+.brand b i { width: 12px; height: 12px; border-radius: 3px; background: var(--lane); }
+.verdict { border: 2px solid var(--lane); border-radius: 8px; padding: 20px; display: grid; gap: 8px; background: linear-gradient(180deg, rgba(61,155,106,.14), transparent); }
+.verdict .k { font-family: var(--mono); font-size: 12px; letter-spacing: .12em; text-transform: uppercase; color: var(--lane); }
+.verdict h1 { margin: 0; font-size: clamp(32px, 8vw, 52px); font-weight: 900; line-height: .98; letter-spacing: -.01em; text-wrap: balance; }
+.verdict p { margin: 0; color: var(--muted); }
+.stats { display: grid; grid-template-columns: repeat(3, minmax(0, 1fr)); border-top: 1px solid var(--curb); border-bottom: 1px solid var(--curb); }
+.stats div { padding: 14px 0; display: grid; gap: 2px; }
+.stats div + div { padding-left: 14px; border-left: 1px solid var(--curb); }
+.stats b { font-size: clamp(28px, 7vw, 40px); font-weight: 900; line-height: 1; font-variant-numeric: tabular-nums; }
+.stats span { font-family: var(--mono); font-size: 11px; letter-spacing: .08em; text-transform: uppercase; color: var(--muted); }
+h2 { margin: 0 0 12px; font-size: 20px; font-weight: 800; }
+.strip { background: var(--asphalt); border: 1px solid var(--curb); border-radius: 6px; padding: 16px; }
+.strip svg { display: block; width: 100%; height: auto; }
+.strip p { margin: 10px 0 0; font-size: 13px; color: var(--muted); }
+.log { display: grid; }
+.log .row { display: grid; grid-template-columns: 64px minmax(0, 1fr) auto; gap: 12px; padding: 14px 0; border-bottom: 1px solid var(--curb); align-items: start; }
+.log .t { font-family: var(--mono); font-size: 15px; color: var(--glint); }
+.log .what { min-width: 0; }
+.log .what b { display: block; font-weight: 700; }
+.log .what span { font-family: var(--mono); font-size: 12px; color: var(--muted); overflow-wrap: anywhere; }
+.log .n { font-family: var(--mono); font-size: 13px; text-align: right; white-space: nowrap; }
+.chip { display: inline-block; font-family: var(--mono); font-size: 11px; padding: 2px 7px; border-radius: 999px; border: 1px solid var(--lane); color: var(--lane); margin-top: 4px; }
+.facts { display: grid; grid-template-columns: auto 1fr; margin: 0; }
+.facts dt, .facts dd { margin: 0; padding: 9px 0; border-bottom: 1px solid var(--curb); }
+.facts dt { font-family: var(--mono); font-size: 12px; color: var(--muted); text-transform: uppercase; letter-spacing: .06em; padding-right: 16px; padding-top: 11px; }
+.note { font-size: 13px; color: var(--muted); }
+.note b { color: var(--ink); }
+footer { font-size: 12px; color: var(--muted); font-family: var(--mono); border-top: 1px solid var(--curb); padding-top: 16px; }
+@media (max-width: 380px) { .stats { grid-template-columns: 1fr; } .stats div + div { padding-left: 0; border-left: 0; border-top: 1px solid var(--curb); } }
+</style>
+
+<main>
+  <div class="brand"><b><i></i>LANEKEEPER</b><span>Public run report</span></div>
+
+  <section class="verdict" aria-labelledby="v">
+    <span class="k">1st Ave protected lane · 14th → 72nd St</span>
+    <h1 id="v">Swept and clear as of 5:52 a.m.</h1>
+    <p id="date">Saturday, October 10, 2026 · night window 4:00–6:00 a.m.</p>
+  </section>
+
+  <div class="stats" id="stats">
+    <div><b>3</b><span>Glass spots cleared</span></div>
+    <div><b>43</b><span>Shards picked up</span></div>
+    <div><b>3/3</b><span>Confirmed by after-photo</span></div>
+  </div>
+
+  <section>
+    <h2>Where the glass was</h2>
+    <div class="strip">
+      <svg id="strip" viewBox="0 0 640 120" role="img" aria-label="The 1st Ave lane from 14th St to 72nd St with three cleared glass spots marked"></svg>
+      <p>The lane is split into 185 cells of 25 m. Ringed cells had glass tonight; the brooms took two passes where the spot was larger.</p>
+    </div>
+  </section>
+
+  <section>
+    <h2>Run log</h2>
+    <div class="log" id="log"></div>
+  </section>
+
+  <section>
+    <h2>About this run</h2>
+    <dl class="facts">
+      <dt>Sweeper</dt><dd>Lanekeeper 01 · E 20th St depot</dd>
+      <dt>Window</dt><dd class="mono">04:00 – 05:52</dd>
+      <dt>Vision</dt><dd>On-board detector, verified by Google DeepMind Gemini Robotics-ER</dd>
+      <dt>Report ID</dt><dd class="mono">2026-10-10-lk-01</dd>
+    </dl>
+  </section>
+
+  <p class="note"><b>Demo run.</b> This report comes from the Lanekeeper concept project and its sample data. A new report is built automatically each time a sweeper finishes a run. Camera frames never appear here: faces and plates are blurred on the robot, and public reports show only the cell, time and count.</p>
+
+  <footer>Built from the run record in the Lanekeeper database at the end of the run.</footer>
+</main>
+
+<script>
+// Report snapshot written by the run_reports table when the run ended.
+const REPORT = {"slug":"2026-10-10-lk-01","sweeper":"Lanekeeper 01","started_at":"2026-10-10T08:00:00+00:00","ended_at":"2026-10-10T09:52:00+00:00","spots_cleared":3,"confirmed":3,"shards":43,
+"cleanups":[{"cell":"MN-1AV-0040","cleared_at":"2026-10-10T08:21:40+00:00","shards":14,"passes":1,"confirmed":true,"lat":40.73962,"lng":-73.97655},
+{"cell":"MN-1AV-0112","cleared_at":"2026-10-10T08:58:40+00:00","shards":6,"passes":1,"confirmed":true,"lat":40.75365,"lng":-73.96585},
+{"cell":"MN-1AV-0160","cleared_at":"2026-10-10T09:37:40+00:00","shards":23,"passes":2,"confirmed":true,"lat":40.76288,"lng":-73.95856}]};
+const CELLS = 185;
+const cross = [[0,'14th'],[30,'23rd'],[67,'34th'],[100,'45th'],[142,'59th'],[184,'72nd']];
+
+const t = (s) => new Date(s).toLocaleTimeString('en-US', { timeZone: 'America/New_York', hour: '2-digit', minute: '2-digit', hour12: false });
+
+// lane strip
+(function () {
+  const svg = document.getElementById('strip'), NS = 'http://www.w3.org/2000/svg';
+  const mk = (tag, a) => { const e = document.createElementNS(NS, tag); for (const k in a) e.setAttribute(k, a[k]); svg.appendChild(e); return e; };
+  const X0 = 20, X1 = 620, x = (i) => X0 + (i / (CELLS - 1)) * (X1 - X0);
+  mk('rect', { x: X0, y: 40, width: X1 - X0, height: 26, rx: 4, fill: '#2f7d55' });
+  for (let i = 0; i < CELLS; i += 8) mk('line', { x1: x(i), x2: x(i), y1: 40, y2: 66, stroke: '#080c15', 'stroke-opacity': .35 });
+  for (const [i, name] of cross) {
+    mk('line', { x1: x(i), x2: x(i), y1: 70, y2: 78, stroke: '#8d97ab' });
+    const tx = mk('text', { x: x(i), y: 94, fill: '#8d97ab', 'font-family': 'Overpass Mono, monospace', 'font-size': 12, 'text-anchor': i === 0 ? 'start' : i === CELLS - 1 ? 'end' : 'middle' });
+    tx.textContent = name;
+  }
+  for (const c of REPORT.cleanups) {
+    const i = parseInt(c.cell.slice(-4), 10), cx = x(i);
+    mk('circle', { cx, cy: 53, r: 6 + Math.sqrt(c.shards) * 1.2, fill: 'none', stroke: '#9fe8ff', 'stroke-width': 2.5 });
+    mk('circle', { cx, cy: 53, r: 3.5, fill: '#e9ecf2' });
+    const lb = mk('text', { x: cx, y: 28, fill: '#9fe8ff', 'font-family': 'Overpass Mono, monospace', 'font-size': 12, 'text-anchor': 'middle' });
+    lb.textContent = t(c.cleared_at);
+  }
+  const s = mk('text', { x: X0, y: 116, fill: '#3d9b6a', 'font-family': 'Overpass Mono, monospace', 'font-size': 11 }); s.textContent = 'NORTHBOUND →';
+})();
+
+// log
+(function () {
+  const log = document.getElementById('log');
+  const rows = [{ time: REPORT.started_at, title: 'Run started', sub: 'Left the E 20th St depot, heading north on 1st Ave', n: '' }]
+    .concat(REPORT.cleanups.map(c => ({ time: c.cleared_at, title: `Glass cleared · ${c.shards} shards`, sub: `${c.cell} · ${c.lat.toFixed(4)}, ${c.lng.toFixed(4)}`, n: `${c.passes} pass${c.passes > 1 ? 'es' : ''}`, chip: c.confirmed })))
+    .concat([{ time: REPORT.ended_at, title: 'Run finished', sub: 'Lane clear end to end. Sweeper returning to dock.', n: '' }]);
+  for (const r of rows) {
+    const row = document.createElement('div'); row.className = 'row';
+    const tm = document.createElement('div'); tm.className = 't'; tm.textContent = t(r.time);
+    const w = document.createElement('div'); w.className = 'what';
+    const b = document.createElement('b'); b.textContent = r.title;
+    const s = document.createElement('span'); s.textContent = r.sub;
+    w.append(b, s);
+    if (r.chip) { const c = document.createElement('span'); c.className = 'chip'; c.textContent = 'after-photo: clear'; w.append(document.createElement('br'), c); }
+    const n = document.createElement('div'); n.className = 'n'; n.textContent = r.n;
+    row.append(tm, w, n); log.appendChild(row);
+  }
+})();
+</script>

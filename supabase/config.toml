@@ -1,0 +1,9 @@
+# Supabase project: lanekeeper (us-east-1)
+project_id = "fvvxmvtoozpxmdkdumrx"
+
+[functions.verify-glass]
+verify_jwt = true
+
+# Twilio cannot send a JWT; the function verifies X-Twilio-Signature instead.
+[functions.sms-glass]
+verify_jwt = false
