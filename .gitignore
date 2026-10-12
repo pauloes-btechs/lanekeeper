@@ -1,0 +1,8 @@
+.env
+.env.*
+*.local
+supabase/.temp/
+supabase/.branches/
+node_modules/
+__pycache__/
+.DS_Store
