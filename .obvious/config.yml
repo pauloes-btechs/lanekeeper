@@ -1,0 +1,9 @@
+# Repo policy for automated work in pauloes-btechs/lanekeeper
+defaultBranch: main
+branches:
+  # Setup and onboarding PRs target the default branch
+  work: auto
+merge:
+  method: squash
+  # Human approval required before a default-branch setup PR merges
+  requireHumanMerge: true
