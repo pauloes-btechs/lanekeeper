@@ -6,6 +6,6 @@
     "drawings": "python3 drawings.py",
     "render": "node shoot.mjs hero.html ../docs/prototype/lanekeeper-render.jpg 1920 1080 && node shoot.mjs dimensions.html ../docs/prototype/lanekeeper-dimensions.jpg 2400 1560 && node shoot.mjs specs.html ../docs/prototype/lanekeeper-specs.jpg 2400 1200"
   },
-  "dependencies": { "three": "0.170.0" },
+  "dependencies": { "three": "0.186.1" },
   "devDependencies": { "playwright": "1.56.0" }
 }
