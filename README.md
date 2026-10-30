@@ -43,6 +43,8 @@ supabase secrets set --env-file .env   # see .env.example
 ```
 
 `sms-glass` has JWT checks off because Twilio can't send one; it checks the `X-Twilio-Signature` on every request instead.
+`verify-glass` requires a `ROBOT_API_KEY` header on every request, matching the `ROBOT_API_KEY` edge secret (set it alongside the others with `supabase secrets set`). Requests without it — or while the secret is unset — get a 401 before anything is sent to Gemini, and Gemini calls are capped at 60 per hour per function instance (`VERIFY_MAX_PER_HOUR` to change it).
+
 
 ### Not done yet
 
