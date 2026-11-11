@@ -11,6 +11,7 @@ on:
     paths:
       - web/scripts/cities.json
       - web/scripts/fetch-city-data.mjs
+      - web/scripts/probe-city-data.mjs
 
 permissions:
   contents: write
@@ -31,6 +32,9 @@ jobs:
       - uses: actions/setup-node@v4
         with:
           node-version: 22
+      - name: Show what each source contains
+        run: node scripts/probe-city-data.mjs
+        continue-on-error: true
       - name: Fetch protected lanes
         run: node scripts/fetch-city-data.mjs | tee /tmp/fetch.log
       - name: Commit changes

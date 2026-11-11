@@ -99,7 +99,14 @@ export async function mountViewer(container, { mode = 'hero', onReady } = {}) {
   controls.enableZoom = inspect;
   controls.update();
 
-  const gltf = await loadModel();
+  let gltf;
+  try {
+    gltf = await loadModel();
+  } catch (err) {
+    canvas.remove();
+    renderer.dispose();
+    throw err;
+  }
   const robot = gltf.scene.clone(true);
   robot.traverse((o) => {
     if (o.isMesh) {
@@ -109,8 +116,10 @@ export async function mountViewer(container, { mode = 'hero', onReady } = {}) {
   });
   scene.add(robot);
 
+  // GLTFLoader wraps the exported root in a scene node; the named parts sit under LK-01.
+  const body = robot.getObjectByName('LK-01') ?? robot;
   const parts = {};
-  for (const g of robot.children) {
+  for (const g of body.children) {
     parts[g.name] = { obj: g, home: g.position.clone(), explode: new THREE.Vector3(...(g.userData.explode ?? [0, 0, 0])) };
   }
 
@@ -192,6 +201,7 @@ export async function mountViewer(container, { mode = 'hero', onReady } = {}) {
   }
 
   const centre = (name) => {
+    if (!parts[name]) return new THREE.Vector3(0, 0.3, 0);
     const box = new THREE.Box3().setFromObject(parts[name].obj);
     return box.getCenter(new THREE.Vector3());
   };

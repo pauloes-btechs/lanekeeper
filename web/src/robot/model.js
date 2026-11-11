@@ -107,7 +107,7 @@ export function buildRobot() {
   }
 
   // ---------- battery and compute: revealed when the shell lifts ----------
-  const power = part('power', 'Battery and edge computer', [0, 0.16, 0]);
+  const power = part('power', 'Battery and edge computer', [0, 0.13, 0]);
   mesh(power, rbox(0.5, 0.12, 0.46, 0.015, 2), M.battery, 0, 0.36, 0.12);
   for (let i = 0; i < 6; i++) mesh(power, new THREE.BoxGeometry(0.46, 0.006, 0.012), M.frame, 0, 0.423, -0.06 + i * 0.072);
   mesh(power, new THREE.BoxGeometry(0.502, 0.02, 0.1), M.hv, 0, 0.36, 0.3);
@@ -117,7 +117,7 @@ export function buildRobot() {
   for (let i = 0; i < 9; i++) mesh(power, new THREE.BoxGeometry(0.008, 0.03, 0.14), M.board, -0.096 + i * 0.024, 0.365, 0.46);
 
   // ---------- upper shell ----------
-  const shell = part('shell', 'Upper shell', [0, 0.42, 0]);
+  const shell = part('shell', 'Upper shell', [0, 0.32, 0]);
   mesh(shell, rbox(D.width - 0.06, 0.2, D.length - 0.16, 0.035, 6), M.shell, 0, 0.4, 0);
   mesh(shell, rbox(D.width - 0.1, 0.085, 0.02, 0.008), M.smoked, 0, 0.41, 0.565);
   // panel seams and cooling louvres
@@ -152,7 +152,7 @@ export function buildRobot() {
   }
 
   // ---------- hopper: sealed glass bin with a smoked lid ----------
-  const hopper = part('hopper', 'Sealed glass hopper', [0, 0.72, -0.12]);
+  const hopper = part('hopper', 'Sealed glass hopper', [0, 0.5, -0.22]);
   mesh(hopper, rbox(0.62, 0.035, 0.44, 0.015), M.smoked, 0, 0.5175, -0.3);
   mesh(hopper, rbox(0.22, 0.018, 0.035, 0.008, 3), M.frame, 0, 0.543, -0.11);
   for (const x of [-0.22, 0.22]) mesh(hopper, new THREE.CylinderGeometry(0.01, 0.01, 0.06, 12), M.frame, x, 0.52, -0.525, 0, 0, Math.PI / 2);
@@ -161,7 +161,7 @@ export function buildRobot() {
   mesh(hopper, new THREE.BoxGeometry(0.565, 0.012, 0.385), M.hv, 0, 0.49, -0.3);
 
   // ---------- beacon, GNSS antenna, rear camera ----------
-  const mast = part('mast', 'Beacon and GNSS', [0, 0.95, 0]);
+  const mast = part('mast', 'Beacon and GNSS', [0, 0.62, 0]);
   mesh(mast, new THREE.CylinderGeometry(0.036, 0.04, 0.012, 24), M.graphite, 0.24, 0.506, -0.42 + 0.84 * 0);
   mesh(mast, new THREE.CylinderGeometry(0.03, 0.034, 0.038, 24), M.amber, 0.24, 0.531, -0.42 + 0.84 * 0);
   mesh(mast, new THREE.CylinderGeometry(0.045, 0.05, 0.016, 28), M.shell, -0.24, 0.508, 0.36);

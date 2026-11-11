@@ -78,6 +78,7 @@ async function fetchSocrata(src) {
   for (let offset = 0; ; offset += size) {
     const u = new URL(`${src.endpoint}.geojson`);
     u.searchParams.set('$where', src.where);
+    u.searchParams.set('$order', ':id');
     u.searchParams.set('$limit', String(size));
     u.searchParams.set('$offset', String(offset));
     const page = await getJson(u);

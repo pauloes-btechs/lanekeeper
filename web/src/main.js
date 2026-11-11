@@ -33,6 +33,8 @@ async function startViewer(stage, mode) {
     return await mod.mountViewer(stage, { mode });
   } catch (err) {
     console.warn('3D viewer failed, showing the render instead', err);
+    stage.querySelectorAll('.viewer-canvas, .viewer-overlay, .hotspot-card').forEach((n) => n.remove());
+    stage.classList.remove('ready');
     stage.classList.add('no-webgl');
     return null;
   }
