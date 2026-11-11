@@ -18,7 +18,7 @@ There is no app server. A healthy local environment is:
    cd prototype && npx playwright install chromium
    sudo npx playwright install-deps chromium   # sandbox was missing libnss3 etc.
    ```
-5. A static server rooted at the repo root (any port; `python3 -m http.server 8000` works).
+5. `web/node_modules` installed (`cd web && npm ci`); `npm run dev` serves the website at http://localhost:5173/lanekeeper/.
 
 ## Verified flows (evidence from 2026-10-30)
 
@@ -31,8 +31,9 @@ There is no app server. A healthy local environment is:
 - **No Docker / no supabase CLI / no deno in the sandbox.** The Supabase backend cannot run locally; do not try. Edge functions were not type-checked locally.
 - **Never `supabase db push` casually** — it targets the live hosted project. `20261010200000_hazard_includes_rider_reports.sql` is deliberately not yet applied.
 - **`npm run render` overwrites tracked JPGs** in `docs/prototype/` — expect a dirty tree afterwards; restore if you didn't mean to re-render.
-- **Web pages fetch three.js from jsdelivr** — headless verification needs network access.
-- **`window.__done` is only set by `prototype/*.html` pages**, not by `web/*.html` — `shoot.mjs` works only inside `prototype/`. For `web/` pages, wait on `networkidle` + a settle delay instead.
+- **The presentation page fetches three.js from jsdelivr** — headless verification needs network access. The website bundles three.js; its 3D stages get a `ready` class (or `no-webgl`) when loaded, so wait on `#hero-stage.ready` rather than a fixed delay.
+- **`window.__done` is only set by `prototype/*.html` pages**, not by `web/` pages — `shoot.mjs` works only inside `prototype/`.
+- **City data can't be fetched from the sandbox.** Change `web/scripts/cities.json` on a branch and let the `City lane data` workflow fetch and commit it; its probe step logs each source's real fields and values.
 - `npm install` in `prototype/` creates an untracked `package-lock.json` (no lockfile is committed). Leave it out of PRs unless asked.
 
 ## Quick verification recipe
@@ -40,6 +41,6 @@ There is no app server. A healthy local environment is:
 ```sh
 python3 analysis/cost_model.py | head -3
 cd prototype && npm install && npx playwright install chromium
-python3 -m http.server 8000 &   # from repo root
-# then headless-check http://127.0.0.1:8000/web/index.html for console errors
+cd ../web && npm ci && npm run lint && npm test && npm run build && npm run preview &
+# then headless-check http://127.0.0.1:4173/lanekeeper/ (and /presentation/, /run-report/) for console errors at 380 px and 1440 px
 ```
