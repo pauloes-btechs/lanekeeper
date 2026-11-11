@@ -62,14 +62,10 @@
     "sourcePage": "https://data.cityofchicago.org/d/hvv9-38ut",
     "type": "socrata",
     "endpoint": "https://data.cityofchicago.org/resource/hvv9-38ut",
-    "where": "",
+    "where": "displayrou='Protected Bike Lane'",
     "protectedField": "",
     "pageSize": 50000,
-    "enabled": false,
-    "notes": "Protected-lane field and values not yet confirmed",
-    "candidates": [
-      "https://data.cityofchicago.org/resource/hvv9-38ut"
-    ]
+    "notes": "displayrou is CDOT's facility type; Protected Bike Lane only."
   },
   {
     "slug": "boston",
