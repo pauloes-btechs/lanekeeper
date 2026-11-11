@@ -56,6 +56,24 @@
       "retrieved": "2026-11-11"
     },
     {
+      "slug": "chicago",
+      "name": "Chicago",
+      "center": [
+        -87.63,
+        41.88
+      ],
+      "zoom": 11,
+      "laneMiles": 68.7,
+      "segments": 189,
+      "byType": {
+        "protected": 68.7
+      },
+      "filter": "displayrou='Protected Bike Lane'",
+      "sourceName": "Bike Routes, CDOT via Chicago Data Portal",
+      "sourcePage": "https://data.cityofchicago.org/d/hvv9-38ut",
+      "retrieved": "2026-11-11"
+    },
+    {
       "slug": "seattle",
       "name": "Seattle",
       "center": [
@@ -147,11 +165,6 @@
     }
   ],
   "skipped": [
-    {
-      "slug": "chicago",
-      "name": "Chicago",
-      "reason": "Protected-lane field and values not yet confirmed"
-    },
     {
       "slug": "boston",
       "name": "Boston",
