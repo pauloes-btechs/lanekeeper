@@ -54,6 +54,78 @@
       "sourceName": "Bicycle Lanes, DDOT via Open Data DC",
       "sourcePage": "https://opendata.dc.gov/datasets/bicycle-lanes",
       "retrieved": "2026-11-11"
+    },
+    {
+      "slug": "boston",
+      "name": "Boston",
+      "center": [
+        -71.06,
+        42.36
+      ],
+      "zoom": 12,
+      "laneMiles": 0.8,
+      "segments": 5,
+      "byType": {
+        "protected": 0.8
+      },
+      "filter": "ExisFacil IN ('CT1-1','CT2-1')",
+      "sourceName": "Existing Bike Network, Boston Transportation Department via Analyze Boston",
+      "sourcePage": "https://data.boston.gov/dataset/existing-bike-network-2022",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "slug": "seattle",
+      "name": "Seattle",
+      "center": [
+        -122.33,
+        47.61
+      ],
+      "zoom": 11,
+      "laneMiles": 49.1,
+      "segments": 649,
+      "byType": {
+        "protected": 49.1
+      },
+      "filter": "CATEGORY='BKF-PBL' AND CURRENT_STATUS='INSVC'",
+      "sourceName": "Existing Bike Facilities, SDOT via Seattle GeoData",
+      "sourcePage": "https://data-seattlecitygis.opendata.arcgis.com/datasets/SeattleCityGIS::existing-bike-facilities-2",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "slug": "portland",
+      "name": "Portland",
+      "center": [
+        -122.67,
+        45.52
+      ],
+      "zoom": 11,
+      "laneMiles": 39.7,
+      "segments": 679,
+      "byType": {
+        "protected": 39.7
+      },
+      "filter": "Status='ACTIVE' AND Facility IN ('PBL','SIR')",
+      "sourceName": "Bicycle Network, Portland Bureau of Transportation via PortlandMaps Open Data",
+      "sourcePage": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Transportation/MapServer/75",
+      "retrieved": "2026-11-11"
+    },
+    {
+      "slug": "la",
+      "name": "Los Angeles",
+      "center": [
+        -118.25,
+        34.05
+      ],
+      "zoom": 10,
+      "laneMiles": 64.3,
+      "segments": 737,
+      "byType": {
+        "protected": 64.3
+      },
+      "filter": "Bikeway_Type='Protected Bike Lane'",
+      "sourceName": "Bikeways (Existing), LADOT via City of Los Angeles GeoHub",
+      "sourcePage": "https://geohub.lacity.org/",
+      "retrieved": "2026-11-11"
     }
   ],
   "skipped": [
@@ -61,21 +133,6 @@
       "slug": "chicago",
       "name": "Chicago",
       "reason": "Protected-lane field and values not yet confirmed"
-    },
-    {
-      "slug": "boston",
-      "name": "Boston",
-      "reason": "Protected-lane values of ExisFacil not yet confirmed"
-    },
-    {
-      "slug": "seattle",
-      "name": "Seattle",
-      "reason": "Protected-lane values of EXISTING_FACILITY_TYPE not yet confirmed"
-    },
-    {
-      "slug": "portland",
-      "name": "Portland",
-      "reason": "Protected-lane Facility code not yet confirmed"
     },
     {
       "slug": "philadelphia",
@@ -86,11 +143,6 @@
       "slug": "minneapolis",
       "name": "Minneapolis",
       "reason": "Dataset layer not yet located"
-    },
-    {
-      "slug": "la",
-      "name": "Los Angeles",
-      "reason": "Protected-lane values of Bikeway_Type not yet confirmed"
     }
   ]
 }
