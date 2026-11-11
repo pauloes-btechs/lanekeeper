@@ -1,0 +1,53 @@
+name: City lane data
+
+# Re-downloads each city's protected bike lanes from official open data and commits the
+# result to web/public/data/. Runs by hand, monthly, and when the source list changes on a branch.
+on:
+  workflow_dispatch:
+  schedule:
+    - cron: "17 6 1 * *"
+  push:
+    branches-ignore: [main]
+    paths:
+      - web/scripts/cities.json
+      - web/scripts/fetch-city-data.mjs
+
+permissions:
+  contents: write
+  pull-requests: write
+
+concurrency:
+  group: city-data-${{ github.ref }}
+  cancel-in-progress: true
+
+jobs:
+  fetch:
+    runs-on: ubuntu-latest
+    defaults:
+      run:
+        working-directory: web
+    steps:
+      - uses: actions/checkout@v4
+      - uses: actions/setup-node@v4
+        with:
+          node-version: 22
+      - name: Fetch protected lanes
+        run: node scripts/fetch-city-data.mjs | tee /tmp/fetch.log
+      - name: Commit changes
+        run: |
+          git add public/data
+          if git diff --cached --quiet; then echo "No data changes"; exit 0; fi
+          git config user.name "github-actions[bot]"
+          git config user.email "41898282+github-actions[bot]@users.noreply.github.com"
+          if [ "${GITHUB_REF_NAME}" = "main" ]; then
+            BR="data/refresh-$(date -u +%Y%m%d)"
+            git switch -c "$BR"
+            git commit -m "data: refresh protected bike-lane data" -m "$(cat /tmp/fetch.log)"
+            git push origin "$BR"
+            gh pr create --base main --head "$BR" --title "data: refresh protected bike-lane data" --body "$(cat /tmp/fetch.log)"
+          else
+            git commit -m "data: fetch protected bike-lane data" -m "$(cat /tmp/fetch.log)"
+            git push origin "HEAD:${GITHUB_REF_NAME}"
+          fi
+        env:
+          GH_TOKEN: ${{ github.token }}
