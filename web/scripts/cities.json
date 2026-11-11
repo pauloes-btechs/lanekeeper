@@ -68,8 +68,7 @@
     "enabled": false,
     "notes": "Protected-lane field and values not yet confirmed",
     "candidates": [
-      "https://data.cityofchicago.org/resource/hvv9-38ut",
-      "https://data.cityofchicago.org/resource/3w5d-sru8"
+      "https://data.cityofchicago.org/resource/hvv9-38ut"
     ]
   },
   {
@@ -84,10 +83,11 @@
     "sourcePage": "https://data.boston.gov/dataset/existing-bike-network-2022",
     "type": "arcgis",
     "endpoint": "https://gis.boston.gov/arcgis/rest/services/CityServices/BikeNetwork/MapServer/0",
-    "where": "ExisFacil IN ('CT1-1','CT2-1')",
+    "where": "",
     "protectedField": "",
     "pageSize": 2000,
-    "notes": "CT1-1 and CT2-1 are one-way and two-way cycle tracks; other codes left out until their meaning is confirmed."
+    "notes": "Existing Facility codes don't clearly mark separated lanes (cycle-track codes match only 0.8 mi); left out until BTD confirms which ExisFacil codes are protected.",
+    "enabled": false
   },
   {
     "slug": "seattle",
@@ -131,20 +131,14 @@
       39.95
     ],
     "zoom": 11,
-    "sourceName": "Bike Network, City of Philadelphia via OpenDataPhilly",
-    "sourcePage": "https://opendataphilly.org/datasets/bike-network/",
+    "sourceName": "Philadelphia Bike Network 2024, City of Philadelphia (OTIS) via ArcGIS Online",
+    "sourcePage": "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
     "type": "arcgis",
-    "endpoint": "",
-    "where": "",
+    "endpoint": "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
+    "where": "BikewayTyp IN ('On-Street Separated Bike Lane','Raised Separated Bike Lane')",
     "protectedField": "",
     "pageSize": 2000,
-    "enabled": false,
-    "notes": "Dataset layer not yet located",
-    "candidates": [
-      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
-      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/bike_network_1/FeatureServer/0",
-      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/phila_bike_lanes/FeatureServer/0"
-    ]
+    "notes": "On-street and raised separated bike lanes from the 2024 network layer."
   },
   {
     "slug": "minneapolis",
@@ -154,19 +148,14 @@
       44.978
     ],
     "zoom": 11,
-    "sourceName": "Bikeways, City of Minneapolis Public Works via Open Minneapolis",
-    "sourcePage": "https://opendata.minneapolismn.gov/",
+    "sourceName": "Existing Bikeways, City of Minneapolis Public Works via ArcGIS Online",
+    "sourcePage": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
     "type": "arcgis",
-    "endpoint": "",
-    "where": "",
+    "endpoint": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
+    "where": "TYPE_1='On-Street Protected Bike Lane' OR TYPE_2='On-Street Protected Bike Lane'",
     "protectedField": "",
     "pageSize": 2000,
-    "enabled": false,
-    "notes": "Dataset layer not yet located",
-    "candidates": [
-      "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
-      "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Bikeways/FeatureServer/0"
-    ]
+    "notes": "Segments whose primary or secondary type is On-Street Protected Bike Lane."
   },
   {
     "slug": "la",

@@ -9,7 +9,7 @@ import { fileURLToPath } from 'node:url';
 const here = dirname(fileURLToPath(import.meta.url));
 const SOURCES = JSON.parse(readFileSync(resolve(here, 'cities.json'), 'utf8'));
 const only = process.argv.slice(2);
-const CANDIDATE = /facil|type|class|status|lane|bike|protect|separat|symbol|categ|existing/i;
+const CANDIDATE = /facil|type|class|status|lane|bike|protect|separat|symbol|categ|existing|rou/i;
 
 async function get(url) {
   const r = await fetch(url, { headers: { Accept: 'application/json', 'User-Agent': 'lanekeeper-site-data/1.0' } });
