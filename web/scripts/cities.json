@@ -1,0 +1,173 @@
+[
+  {
+    "slug": "nyc",
+    "name": "New York City",
+    "center": [
+      -73.98,
+      40.73
+    ],
+    "zoom": 11,
+    "sourceName": "New York City Bike Routes, NYC DOT via NYC Open Data",
+    "sourcePage": "https://data.cityofnewyork.us/d/mzxg-pwib",
+    "type": "socrata",
+    "endpoint": "https://data.cityofnewyork.us/resource/mzxg-pwib",
+    "where": "status='Current' AND onoffst='ON' AND (ft_facilit='Protected' OR tf_facilit='Protected')",
+    "protectedField": "",
+    "pageSize": 50000,
+    "notes": "Facility type is per direction (ft_/tf_facilit); onoffst='ON' drops off-street greenways that are also coded Protected."
+  },
+  {
+    "slug": "sf",
+    "name": "San Francisco",
+    "center": [
+      -122.44,
+      37.76
+    ],
+    "zoom": 12,
+    "sourceName": "SFMTA Bikeway Network, SFMTA via DataSF",
+    "sourcePage": "https://data.sf.gov/d/ygmz-vaxd",
+    "type": "socrata",
+    "endpoint": "https://data.sf.gov/resource/ygmz-vaxd",
+    "where": "facility_t='CLASS IV'",
+    "protectedField": "",
+    "pageSize": 50000,
+    "notes": "Class IV is California's separated bikeway class. Dataset covers the existing network only."
+  },
+  {
+    "slug": "dc",
+    "name": "Washington, DC",
+    "center": [
+      -77.03,
+      38.9
+    ],
+    "zoom": 12,
+    "sourceName": "Bicycle Lanes, DDOT via Open Data DC",
+    "sourcePage": "https://opendata.dc.gov/datasets/bicycle-lanes",
+    "type": "arcgis",
+    "endpoint": "https://maps2.dcgis.dc.gov/dcgis/rest/services/DCGIS_DATA/Transportation_Bikes_Trails_WebMercator/MapServer/2",
+    "where": "BIKELANE_PROTECTED IN ('BD','IB','OB') OR BIKELANE_DUAL_PROTECTED IN ('BD','IB','OB')",
+    "protectedField": "",
+    "pageSize": 2000,
+    "notes": "Protected lanes coded per side (BD both, IB inbound, OB outbound)."
+  },
+  {
+    "slug": "chicago",
+    "name": "Chicago",
+    "center": [
+      -87.63,
+      41.88
+    ],
+    "zoom": 11,
+    "sourceName": "Bike Routes, CDOT via Chicago Data Portal",
+    "sourcePage": "https://data.cityofchicago.org/d/hvv9-38ut",
+    "type": "socrata",
+    "endpoint": "https://data.cityofchicago.org/resource/hvv9-38ut",
+    "where": "displayrou='Protected Bike Lane'",
+    "protectedField": "",
+    "pageSize": 50000,
+    "notes": "displayrou is CDOT's facility type; Protected Bike Lane only."
+  },
+  {
+    "slug": "boston",
+    "name": "Boston",
+    "center": [
+      -71.06,
+      42.36
+    ],
+    "zoom": 12,
+    "sourceName": "Existing Bike Network, Boston Transportation Department via Analyze Boston",
+    "sourcePage": "https://data.boston.gov/dataset/existing-bike-network-2022",
+    "type": "arcgis",
+    "endpoint": "https://gis.boston.gov/arcgis/rest/services/CityServices/BikeNetwork/MapServer/0",
+    "where": "",
+    "protectedField": "",
+    "pageSize": 2000,
+    "notes": "Existing Facility codes don't clearly mark separated lanes (cycle-track codes match only 0.8 mi); left out until BTD confirms which ExisFacil codes are protected.",
+    "enabled": false
+  },
+  {
+    "slug": "seattle",
+    "name": "Seattle",
+    "center": [
+      -122.33,
+      47.61
+    ],
+    "zoom": 11,
+    "sourceName": "Existing Bike Facilities, SDOT via Seattle GeoData",
+    "sourcePage": "https://data-seattlecitygis.opendata.arcgis.com/datasets/SeattleCityGIS::existing-bike-facilities-2",
+    "type": "arcgis",
+    "endpoint": "https://services.arcgis.com/ZOyb2t4B0UYuYNYH/arcgis/rest/services/SDOT_Bike_Facilities/FeatureServer/2",
+    "where": "CATEGORY='BKF-PBL' AND CURRENT_STATUS='INSVC'",
+    "protectedField": "",
+    "pageSize": 2000,
+    "notes": "BKF-PBL is SDOT's protected bike lane category; in-service segments only."
+  },
+  {
+    "slug": "portland",
+    "name": "Portland",
+    "center": [
+      -122.67,
+      45.52
+    ],
+    "zoom": 11,
+    "sourceName": "Bicycle Network, Portland Bureau of Transportation via PortlandMaps Open Data",
+    "sourcePage": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Transportation/MapServer/75",
+    "type": "arcgis",
+    "endpoint": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Transportation/MapServer/75",
+    "where": "Status='ACTIVE' AND Facility IN ('PBL','SIR')",
+    "protectedField": "",
+    "pageSize": 200,
+    "notes": "PBL = Protected Bike Lane, SIR = Separated in-Roadway; active segments only."
+  },
+  {
+    "slug": "philadelphia",
+    "name": "Philadelphia",
+    "center": [
+      -75.16,
+      39.95
+    ],
+    "zoom": 11,
+    "sourceName": "Philadelphia Bike Network 2024, City of Philadelphia (OTIS) via ArcGIS Online",
+    "sourcePage": "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
+    "type": "arcgis",
+    "endpoint": "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
+    "where": "BikewayTyp IN ('On-Street Separated Bike Lane','Raised Separated Bike Lane')",
+    "protectedField": "",
+    "pageSize": 2000,
+    "notes": "On-street and raised separated bike lanes from the 2024 network layer."
+  },
+  {
+    "slug": "minneapolis",
+    "name": "Minneapolis",
+    "center": [
+      -93.265,
+      44.978
+    ],
+    "zoom": 11,
+    "sourceName": "Existing Bikeways, City of Minneapolis Public Works via ArcGIS Online",
+    "sourcePage": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
+    "type": "arcgis",
+    "endpoint": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
+    "where": "TYPE_1='On-Street Protected Bike Lane' OR TYPE_2='On-Street Protected Bike Lane'",
+    "protectedField": "",
+    "pageSize": 2000,
+    "notes": "Segments whose primary or secondary type is On-Street Protected Bike Lane."
+  },
+  {
+    "slug": "la",
+    "name": "Los Angeles",
+    "center": [
+      -118.25,
+      34.05
+    ],
+    "zoom": 10,
+    "sourceName": "Bikeways (Existing), LADOT via City of Los Angeles GeoHub",
+    "sourcePage": "https://geohub.lacity.org/",
+    "type": "arcgis",
+    "endpoint": "https://maps.lacity.org/lahub/rest/services/LADOT/MapServer/0",
+    "where": "Bikeway_Type='Protected Bike Lane'",
+    "protectedField": "",
+    "pageSize": 1000,
+    "notes": "Layer holds existing bikeways only."
+  }
+]

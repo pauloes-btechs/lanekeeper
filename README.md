@@ -10,15 +10,40 @@ Concept stage. The hardware is a design; the data platform, Gemini glass check a
 
 | Path | What it is |
 | --- | --- |
-| `web/index.html` | The Lanekeeper presentation: 3D night run, today vs. Lanekeeper, map strategy, Supabase schema, text GLASS, run report, the pilot ask. One self-contained page |
-| `web/run-report.html` | Public run report riders open from a QR code |
+| `web/` | The Lanekeeper website (Vite): 3D LK-01 model, city lane maps, cost estimator, demo requests. See [Website](#website) |
+| `web/public/presentation/` | The original Lanekeeper presentation, served at `/presentation/` |
+| `web/public/run-report/` | Public run report riders open from a QR code, served at `/run-report/` |
 | `supabase/migrations/` | Database schema, in order. PostGIS lane cells, detections, cleanups, run reports, rider reports |
 | `supabase/seed.sql` | Demo data: the 1st Ave lane cut into 25 m cells and one sample run |
 | `supabase/functions/verify-glass/` | Sends a camera frame to Gemini Robotics-ER and records the verdict |
 | `supabase/functions/sms-glass/` | Twilio webhook for texted reports (MMS and WhatsApp) |
+| `supabase/functions/request-demo/` | Demo-request intake for the website: validation, honeypot, rate limits |
 | `analysis/cost_model.py` | Cost per lane-mile, staffed mini-sweeper vs. robot, three scenarios |
 | `docs/prototype/` | Prototype images: render, dimension sheet, spec sheet |
 | `prototype/` | Source that renders those images (three.js scene + SVG drawings) |
+
+## Website
+
+**Live:** https://pauloes-btechs.github.io/lanekeeper/ (deployed by `.github/workflows/pages.yml` on every push to `main`)
+
+A single page for city transportation and sanitation teams: the LK-01 robot in 3D (orbit, exploded view, dimensions, labeled parts), how a glass spot gets cleared, a map of each city's existing protected bike lanes with a fleet and cost estimate, and a demo request form.
+
+```sh
+cd web
+npm install
+npm run dev        # http://localhost:5173/lanekeeper/
+npm test           # estimator pinned to analysis/cost_model.py, model dimensions, form rules, geometry
+npm run lint
+npm run build      # static site in web/dist
+npm run model      # re-export public/models/lk-01.glb after editing src/robot/model.js
+npm run data       # re-download city lane data (needs open network; CI does this monthly)
+```
+
+**3D model.** `web/src/robot/model.js` builds LK-01 from parametric three.js geometry at true scale and `npm run model` exports it to `public/models/lk-01.glb`. The site loads that GLB.
+
+**City data.** `web/scripts/cities.json` lists each city's official open-data source and the filter that keeps only existing protected lanes. `npm run data` downloads them, simplifies the lines, and computes lane-miles from the geometry (never typed by hand). The `City lane data` workflow re-runs this monthly and opens a PR with any changes. Current coverage: New York, San Francisco, Washington DC, Chicago, Seattle, Portland, Philadelphia, Minneapolis and Los Angeles. Boston is left out until its protected-lane codes are confirmed.
+
+**Demo requests** go to the `request-demo` edge function, which validates the form, drops honeypot submissions, rate-limits by a salted hash of IP and email, and writes to `public.demo_requests`. That table has no public access; read it in the Supabase dashboard or with the service role.
 
 ## Prototype
 
@@ -39,6 +64,7 @@ supabase link --project-ref <your-project-ref>
 supabase db push
 supabase functions deploy verify-glass
 supabase functions deploy sms-glass --no-verify-jwt
+supabase functions deploy request-demo --no-verify-jwt
 supabase secrets set --env-file .env   # see .env.example
 ```
 

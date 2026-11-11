@@ -7,3 +7,7 @@ verify_jwt = true
 # Twilio cannot send a JWT; the function verifies X-Twilio-Signature instead.
 [functions.sms-glass]
 verify_jwt = false
+
+# Public form endpoint: validates input, honeypot and rate limits itself (see handler.ts).
+[functions.request-demo]
+verify_jwt = false
