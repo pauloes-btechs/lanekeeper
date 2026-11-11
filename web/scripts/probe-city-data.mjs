@@ -25,6 +25,7 @@ const log = (...a) => console.log(...a);
 async function probeSocrata(src) {
   const one = await get(`${src.endpoint}.json?$limit=1`);
   if (!Array.isArray(one.json)) return log('  sample failed', one.status, one.text ?? JSON.stringify(one.json).slice(0, 200));
+  if (!one.json.length) return log('  sample returned no rows');
   const fields = Object.keys(one.json[0] ?? {});
   log('  fields:', fields.join(', '));
   for (const f of fields.filter((f) => CANDIDATE.test(f) && !/geom|shape/i.test(f))) {
@@ -82,6 +83,11 @@ for (const src of SOURCES) {
   log(`\n=== ${src.name} (${src.slug}) ===`);
   try {
     if (src.discover) await discover(src.discover);
+    for (const c of src.candidates ?? []) {
+      log(`  -- candidate ${c}`);
+      if (src.type === 'socrata') await probeSocrata({ ...src, endpoint: c });
+      else await probeArcgisLayer(c);
+    }
     if (src.endpoint && src.type === 'socrata') await probeSocrata(src);
     if (src.endpoint && src.type === 'arcgis') await probeArcgisLayer(src.endpoint);
   } catch (e) {

@@ -2,7 +2,10 @@
   {
     "slug": "nyc",
     "name": "New York City",
-    "center": [-73.98, 40.73],
+    "center": [
+      -73.98,
+      40.73
+    ],
     "zoom": 11,
     "sourceName": "New York City Bike Routes, NYC DOT via NYC Open Data",
     "sourcePage": "https://data.cityofnewyork.us/d/mzxg-pwib",
@@ -16,7 +19,10 @@
   {
     "slug": "sf",
     "name": "San Francisco",
-    "center": [-122.44, 37.76],
+    "center": [
+      -122.44,
+      37.76
+    ],
     "zoom": 12,
     "sourceName": "SFMTA Bikeway Network, SFMTA via DataSF",
     "sourcePage": "https://data.sf.gov/d/ygmz-vaxd",
@@ -30,7 +36,10 @@
   {
     "slug": "dc",
     "name": "Washington, DC",
-    "center": [-77.03, 38.9],
+    "center": [
+      -77.03,
+      38.9
+    ],
     "zoom": 12,
     "sourceName": "Bicycle Lanes, DDOT via Open Data DC",
     "sourcePage": "https://opendata.dc.gov/datasets/bicycle-lanes",
@@ -44,7 +53,10 @@
   {
     "slug": "chicago",
     "name": "Chicago",
-    "center": [-87.63, 41.88],
+    "center": [
+      -87.63,
+      41.88
+    ],
     "zoom": 11,
     "sourceName": "Bike Routes, CDOT via Chicago Data Portal",
     "sourcePage": "https://data.cityofchicago.org/d/hvv9-38ut",
@@ -54,98 +66,123 @@
     "protectedField": "",
     "pageSize": 50000,
     "enabled": false,
-    "notes": "Protected-lane field and values not yet confirmed"
+    "notes": "Protected-lane field and values not yet confirmed",
+    "candidates": [
+      "https://data.cityofchicago.org/resource/hvv9-38ut",
+      "https://data.cityofchicago.org/resource/3w5d-sru8"
+    ]
   },
   {
     "slug": "boston",
     "name": "Boston",
-    "center": [-71.06, 42.36],
+    "center": [
+      -71.06,
+      42.36
+    ],
     "zoom": 12,
     "sourceName": "Existing Bike Network, Boston Transportation Department via Analyze Boston",
     "sourcePage": "https://data.boston.gov/dataset/existing-bike-network-2022",
     "type": "arcgis",
     "endpoint": "https://gis.boston.gov/arcgis/rest/services/CityServices/BikeNetwork/MapServer/0",
-    "where": "",
-    "protectedField": "ExisFacil",
+    "where": "ExisFacil IN ('CT1-1','CT2-1')",
+    "protectedField": "",
     "pageSize": 2000,
-    "enabled": false,
-    "notes": "Protected-lane values of ExisFacil not yet confirmed"
+    "notes": "CT1-1 and CT2-1 are one-way and two-way cycle tracks; other codes left out until their meaning is confirmed."
   },
   {
     "slug": "seattle",
     "name": "Seattle",
-    "center": [-122.33, 47.61],
+    "center": [
+      -122.33,
+      47.61
+    ],
     "zoom": 11,
     "sourceName": "Existing Bike Facilities, SDOT via Seattle GeoData",
     "sourcePage": "https://data-seattlecitygis.opendata.arcgis.com/datasets/SeattleCityGIS::existing-bike-facilities-2",
     "type": "arcgis",
     "endpoint": "https://services.arcgis.com/ZOyb2t4B0UYuYNYH/arcgis/rest/services/SDOT_Bike_Facilities/FeatureServer/2",
-    "where": "",
-    "protectedField": "EXISTING_FACILITY_TYPE",
+    "where": "CATEGORY='BKF-PBL' AND CURRENT_STATUS='INSVC'",
+    "protectedField": "",
     "pageSize": 2000,
-    "enabled": false,
-    "notes": "Protected-lane values of EXISTING_FACILITY_TYPE not yet confirmed"
+    "notes": "BKF-PBL is SDOT's protected bike lane category; in-service segments only."
   },
   {
     "slug": "portland",
     "name": "Portland",
-    "center": [-122.67, 45.52],
+    "center": [
+      -122.67,
+      45.52
+    ],
     "zoom": 11,
     "sourceName": "Bicycle Network, Portland Bureau of Transportation via PortlandMaps Open Data",
     "sourcePage": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Transportation/MapServer/75",
     "type": "arcgis",
     "endpoint": "https://www.portlandmaps.com/od/rest/services/COP_OpenData_Transportation/MapServer/75",
-    "where": "",
-    "protectedField": "Facility",
+    "where": "Status='ACTIVE' AND Facility IN ('PBL','SIR')",
+    "protectedField": "",
     "pageSize": 200,
-    "enabled": false,
-    "notes": "Protected-lane Facility code not yet confirmed"
+    "notes": "PBL = Protected Bike Lane, SIR = Separated in-Roadway; active segments only."
   },
   {
     "slug": "philadelphia",
     "name": "Philadelphia",
-    "center": [-75.16, 39.95],
+    "center": [
+      -75.16,
+      39.95
+    ],
     "zoom": 11,
     "sourceName": "Bike Network, City of Philadelphia via OpenDataPhilly",
     "sourcePage": "https://opendataphilly.org/datasets/bike-network/",
     "type": "arcgis",
     "endpoint": "",
-    "discover": "https://services.arcgis.com/fLeGjb7u4uXqeF9q/ArcGIS/rest/services",
     "where": "",
     "protectedField": "",
     "pageSize": 2000,
     "enabled": false,
-    "notes": "Dataset layer not yet located"
+    "notes": "Dataset layer not yet located",
+    "candidates": [
+      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/_Philadelphia_Bike_Network_2024/FeatureServer/0",
+      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/bike_network_1/FeatureServer/0",
+      "https://services.arcgis.com/fLeGjb7u4uXqeF9q/arcgis/rest/services/phila_bike_lanes/FeatureServer/0"
+    ]
   },
   {
     "slug": "minneapolis",
     "name": "Minneapolis",
-    "center": [-93.265, 44.978],
+    "center": [
+      -93.265,
+      44.978
+    ],
     "zoom": 11,
     "sourceName": "Bikeways, City of Minneapolis Public Works via Open Minneapolis",
     "sourcePage": "https://opendata.minneapolismn.gov/",
     "type": "arcgis",
     "endpoint": "",
-    "discover": "https://services.arcgis.com/afSMGVsC7QlRK1kZ/ArcGIS/rest/services",
     "where": "",
     "protectedField": "",
     "pageSize": 2000,
     "enabled": false,
-    "notes": "Dataset layer not yet located"
+    "notes": "Dataset layer not yet located",
+    "candidates": [
+      "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Existing_Bikeways/FeatureServer/0",
+      "https://services.arcgis.com/afSMGVsC7QlRK1kZ/arcgis/rest/services/Bikeways/FeatureServer/0"
+    ]
   },
   {
     "slug": "la",
     "name": "Los Angeles",
-    "center": [-118.25, 34.05],
+    "center": [
+      -118.25,
+      34.05
+    ],
     "zoom": 10,
     "sourceName": "Bikeways (Existing), LADOT via City of Los Angeles GeoHub",
     "sourcePage": "https://geohub.lacity.org/",
     "type": "arcgis",
     "endpoint": "https://maps.lacity.org/lahub/rest/services/LADOT/MapServer/0",
-    "where": "",
-    "protectedField": "Bikeway_Type",
+    "where": "Bikeway_Type='Protected Bike Lane'",
+    "protectedField": "",
     "pageSize": 1000,
-    "enabled": false,
-    "notes": "Protected-lane values of Bikeway_Type not yet confirmed"
+    "notes": "Layer holds existing bikeways only."
   }
 ]
