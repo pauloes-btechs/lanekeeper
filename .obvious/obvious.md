@@ -50,7 +50,7 @@ Env vars used by edge functions (set via `supabase secrets set`): `SUPABASE_URL`
 ## Known sandbox limits
 
 - No Docker, no Supabase CLI, no Deno in the sandbox: the DB and edge functions cannot run locally. Do not attempt `supabase db push` against the live project without explicit instruction — one migration (`20261010200000_hazard_includes_rider_reports.sql`) is written but intentionally not yet applied live.
-- The presentation page loads three.js from jsdelivr; the website bundles its own. The city map's basemap (OpenFreeMap) and Google Fonts need browser network; without them the map draws lanes on a plain background.
+- The presentation page loads three.js from jsdelivr; the website bundles its own. The website self-hosts its fonts (IBM Plex Sans + Mono via @fontsource). The city map's basemap (OpenFreeMap) needs browser network; without it the map draws lanes on a plain background.
 - City open-data portals are blocked from the sandbox; refresh lane data through the `City lane data` workflow, not locally.
 
 ## Codebase map
