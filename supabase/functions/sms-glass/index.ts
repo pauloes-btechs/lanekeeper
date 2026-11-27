@@ -143,7 +143,7 @@ Deno.serve(async (req) => {
     if (numMedia > 0) {
       const mediaUrl = params.get("MediaUrl0")!;
       const mime = (params.get("MediaContentType0") ?? "image/jpeg").split(";")[0];
-      if (!mime.startsWith("image/")) return twiml("Please send a photo (JPEG or PNG) of the glass.");
+      if (mime !== "image/jpeg" && mime !== "image/png") return twiml("Please send a photo (JPEG or PNG) of the glass.");
       const media = await fetch(mediaUrl, { headers: { Authorization: "Basic " + btoa(`${sid}:${token}`) } });
       if (!media.ok) throw new Error(`media fetch ${media.status}`);
       const buf = new Uint8Array(await media.arrayBuffer());
@@ -161,8 +161,10 @@ Deno.serve(async (req) => {
       const analysis = await analyze(btoa(b64), mime);
 
       const path = `${new Date().toISOString().slice(0, 10)}/${crypto.randomUUID()}.${mime === "image/png" ? "png" : "jpg"}`;
-      await db.storage.from("rider-photos").upload(path, buf, { contentType: mime === "image/png" ? "image/jpeg" : mime, upsert: false }).catch(() => null);
-      const draft = { ...analysis, photo_path: path, taken_at: takenAt };
+      const { error: uploadError } = await db.storage.from("rider-photos").upload(path, buf, { contentType: mime, upsert: false });
+      if (uploadError) console.error("rider photo upload failed", uploadError);
+      // keep the report even if the photo didn't store, but never point at a missing file
+      const draft = { ...analysis, photo_path: uploadError ? null : path, taken_at: takenAt };
 
       const lat = gps?.latitude, lng = gps?.longitude;
       if (typeof lat === "number" && typeof lng === "number" && inNyc(lat, lng)) {
