@@ -80,3 +80,10 @@ Deno.test("spend cap returns 429 once the hourly window is exhausted", async () 
   const res = await handleVerifyGlass(post(frame, "test-robot-key"), mockGemini);
   assertEquals(res.status, 429);
 });
+
+Deno.test("shard counts from the model are coerced to whole numbers", async () => {
+  resetSpendLimiter();
+  const odd = () => Promise.resolve([{ shards: "3" }, { shards: 2.4 }, null, {}] as unknown as Pt[]);
+  const res = await handleVerifyGlass(post({ frameB64: "abc" }, "test-robot-key"), odd);
+  assertEquals((await res.json()).shards, 3 + 2 + 1 + 1);
+});
