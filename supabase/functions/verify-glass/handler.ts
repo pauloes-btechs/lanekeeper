@@ -61,9 +61,8 @@ export type Pt = { point?: [number, number]; label?: string; shards?: number };
 export type GeminiCaller = (frameB64: string, mimeType: string) => Promise<Pt[]>;
 
 async function callGemini(frameB64: string, mimeType: string): Promise<Pt[]> {
-  const apiKey = Deno.env.get("GEMINI_API_KEY");
-  if (!apiKey) throw new Error("GEMINI_API_KEY secret is not set for this project");
-  const ai = new GoogleGenAI({ apiKey });
+  // handleVerifyGlass already returned 500 if this secret is missing
+  const ai = new GoogleGenAI({ apiKey: Deno.env.get("GEMINI_API_KEY")! });
   const res = await ai.models.generateContent({
     model: MODEL,
     contents: [{ role: "user", parts: [
