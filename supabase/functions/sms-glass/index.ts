@@ -19,6 +19,21 @@ const twiml = (msg?: string) => new Response(
 );
 const inNyc = (lat: number, lng: number) => lat > NYC.s && lat < NYC.n && lng > NYC.w && lng < NYC.e;
 
+// The rider_reports count below misses photos still waiting for a location, so each of those
+// would buy a free Gemini call. Count photos per sender here too.
+// shortcut: per instance and reset on cold start, like verify-glass; move to a table if abuse shows up.
+const photoWindows = new Map<string, { start: number; count: number }>();
+function photoCapReached(reporter: string) {
+  const now = Date.now();
+  const w = photoWindows.get(reporter);
+  if (!w || now - w.start >= 3600_000) {
+    photoWindows.set(reporter, { start: now, count: 1 });
+    return false;
+  }
+  return ++w.count > MAX_PER_HOUR;
+}
+const TOO_MANY = "Thanks, we've got plenty from you this hour. Try again a bit later.";
+
 async function hmacB64(key: string, data: string, algo: "SHA-1" | "SHA-256") {
   const k = await crypto.subtle.importKey("raw", new TextEncoder().encode(key), { name: "HMAC", hash: algo }, false, ["sign"]);
   const sig = await crypto.subtle.sign("HMAC", k, new TextEncoder().encode(data));
@@ -136,11 +151,12 @@ Deno.serve(async (req) => {
   const hourAgo = new Date(Date.now() - 3600_000).toISOString();
   const { count } = await db.from("rider_reports").select("id", { count: "exact", head: true })
     .eq("reporter_hash", reporter).gte("created_at", hourAgo);
-  if ((count ?? 0) >= MAX_PER_HOUR) return twiml("Thanks, we've got plenty from you this hour. Try again a bit later.");
+  if ((count ?? 0) >= MAX_PER_HOUR) return twiml(TOO_MANY);
 
   try {
     // 1) a photo arrived
     if (numMedia > 0) {
+      if (photoCapReached(reporter)) return twiml(TOO_MANY);
       const mediaUrl = params.get("MediaUrl0")!;
       const mime = (params.get("MediaContentType0") ?? "image/jpeg").split(";")[0];
       if (mime !== "image/jpeg" && mime !== "image/png") return twiml("Please send a photo (JPEG or PNG) of the glass.");
