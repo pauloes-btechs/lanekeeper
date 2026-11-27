@@ -2,6 +2,7 @@
 -- every call. Send the key, read from Vault. Store it once per project with:
 --   select vault.create_secret('<same value as the ROBOT_API_KEY edge secret>', 'robot_api_key');
 -- With no Vault secret the header is empty and verify-glass still fails closed.
+-- The bearer token below is the project's public anon key (safe to publish; RLS protects data).
 create or replace function internal.check_frame(frame_b64 text, frame_label text, mime text default 'image/jpeg')
 returns bigint language plpgsql security definer set search_path = '' as $$
 declare rid bigint; fid bigint;
