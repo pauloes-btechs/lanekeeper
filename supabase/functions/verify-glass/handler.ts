@@ -113,7 +113,8 @@ export async function handleVerifyGlass(
   }
 
   const verdict = pts.length ? "glass" : "not_glass";
-  const shards = pts.reduce((n, p) => n + (p.shards ?? 1), 0);
+  // Model output is untrusted: a string or fractional count would break the int column.
+  const shards = pts.reduce((n, p) => n + (Number.isFinite(Number(p?.shards)) ? Math.round(Number(p.shards)) : 1), 0);
 
   // detectionId is optional: without it this is a dry run that writes nothing
   if (detectionId) {
