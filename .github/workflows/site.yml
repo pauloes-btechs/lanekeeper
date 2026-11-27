@@ -36,12 +36,12 @@ jobs:
           test -s dist/run-report/index.html
           node -e "const m=require('./dist/data/cities.json'); if(!m.cities.length) process.exit(1); for (const c of m.cities) require('fs').statSync('dist/data/'+c.slug+'.geojson'); console.log(m.cities.map(c=>c.name+': '+c.laneMiles+' mi').join('\n'))"
 
-  request-demo:
-    name: Demo request function tests
+  functions:
+    name: Edge function tests
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v4
       - uses: denoland/setup-deno@v2
         with:
           deno-version: v2.x
-      - run: deno test supabase/functions/request-demo/index_test.ts
+      - run: deno test --allow-env supabase/functions/
