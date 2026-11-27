@@ -31,7 +31,7 @@ export const HOTSPOTS = [
   { part: 'chassis', label: 'Dock contacts', text: 'Rear contacts let the robot charge itself at the depot between night runs, about 3 hours.', offset: [0, -0.02, -0.66] },
 ];
 
-export async function mountViewer(container, { mode = 'hero', onReady } = {}) {
+export async function mountViewer(container, { mode = 'hero' } = {}) {
   const inspect = mode === 'inspect';
   const canvas = document.createElement('canvas');
   canvas.className = 'viewer-canvas';
@@ -263,16 +263,12 @@ export async function mountViewer(container, { mode = 'hero', onReady } = {}) {
   });
   loop();
   container.classList.add('ready');
-  onReady?.();
 
   return {
     setExploded,
     setDimensions(on) {
       dims.visible = on;
       if (on) setExploded(false);
-    },
-    setAutoRotate(on) {
-      controls.autoRotate = on && !reduced();
     },
     showHotspot,
   };
