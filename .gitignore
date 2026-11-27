@@ -1,5 +1,6 @@
 .env
 .env.*
+!.env.example
 *.local
 supabase/.temp/
 supabase/.branches/
