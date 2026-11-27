@@ -4,7 +4,7 @@ Contract for any agent working in this repository. Read it before changing anyth
 
 ## Purpose
 
-Lanekeeper is a concept-stage robot sweeper for NYC protected bike lanes (see `README.md` for the full pitch). The built parts are software and data: a Supabase backend (schema migrations, seed data, three edge functions) and the Lanekeeper website under `web/` (a Vite build, with the original presentation and run report served as static pages). The hardware is design documentation and rendered prototype images only. Tests exist for the website (`web/test/`, Vitest) and the `request-demo` function (Deno); there is no other test suite, so do not invent one. Done criteria below are the checks this repo actually uses.
+Lanekeeper is a concept-stage robot sweeper for NYC protected bike lanes (see `README.md` for the full pitch). The built parts are software and data: a Supabase backend (schema migrations, seed data, three edge functions) and the Lanekeeper website under `web/` (a Vite build, with the original presentation and run report served as static pages). The hardware is design documentation and rendered prototype images only. Tests exist for the website (`web/test/`, Vitest) and the `request-demo` and `verify-glass` functions (Deno); there is no other test suite, so do not invent one. Done criteria below are the checks this repo actually uses.
 
 ## Layout
 
@@ -21,7 +21,7 @@ Lanekeeper is a concept-stage robot sweeper for NYC protected bike lanes (see `R
 | `supabase/functions/request-demo/` | Website demo-request intake (no JWT; origin allowlist, validation, honeypot, hashed-IP/email rate limits) writing to `demo_requests` |
 | `analysis/cost_model.py` | Standalone Python cost model |
 | `prototype/` | Node project that renders `docs/prototype/*.jpg` (its own `package.json` — there is no root manifest) |
-| `.github/workflows/` | `ci.yml` (Python smoke), `site.yml` (site lint/test/build + `request-demo` Deno tests), `pages.yml` (deploy `web/dist` to GitHub Pages on `main`), `city-data.yml` (monthly lane-data refresh) |
+| `.github/workflows/` | `ci.yml` (Python smoke), `site.yml` (site lint/test/build + edge function Deno tests), `pages.yml` (deploy `web/dist` to GitHub Pages on `main`), `city-data.yml` (monthly lane-data refresh) |
 
 ## Conventions
 
@@ -41,7 +41,7 @@ Run these against the manifests that actually exist here (no root `package.json`
 ```sh
 python3 analysis/cost_model.py                                   # cost model runs and prints scenarios
 cd web && npm ci && npm run lint && npm test && npm run build    # website lints, tests pass, builds
-deno test supabase/functions/request-demo/index_test.ts          # demo function tests (CI runs this)
+deno test --allow-env supabase/functions/                        # edge function tests (CI runs this)
 cd prototype && npm install && npm run drawings && npm run render  # prototype still renders
 supabase db push                                                 # migrations apply cleanly (use a scratch project)
 supabase functions deploy verify-glass                           # edge function deploys
