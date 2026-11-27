@@ -23,7 +23,10 @@ const db: Db = {
 };
 
 // DEMO_SALT keeps hashed IPs and emails unlinkable across projects; set it as an edge secret.
-const salt = Deno.env.get("DEMO_SALT") ?? Deno.env.get("REPORTER_SALT") ?? "lanekeeper-demo";
+// No fallback string: a salt published in this repo would let anyone reverse the stored IP hashes.
+const salt = Deno.env.get("DEMO_SALT") ?? Deno.env.get("REPORTER_SALT");
 const extraOrigins = (Deno.env.get("DEMO_ALLOWED_ORIGINS") ?? "").split(",").map((s) => s.trim()).filter(Boolean);
 
-Deno.serve((req) => handleRequestDemo(req, db, salt, extraOrigins));
+Deno.serve((req) =>
+  salt ? handleRequestDemo(req, db, salt, extraOrigins) : Response.json({ error: "DEMO_SALT secret is not set." }, { status: 500 })
+);
