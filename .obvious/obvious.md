@@ -43,7 +43,7 @@ supabase functions deploy request-demo --no-verify-jwt
 supabase secrets set --env-file .env
 ```
 
-Env vars used by edge functions (set via `supabase secrets set`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL` (optional, defaults to `gemini-robotics-er-2-preview`), `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `SMS_WEBHOOK_URL` (optional), `REPORTER_SALT`, `ROBOT_API_KEY`, `DEMO_SALT` (request-demo hashing), `DEMO_ALLOWED_ORIGINS` (optional, comma-separated). Note: README references `.env.example` but the file is not in the repo — TODO(confirm).
+Env vars used by edge functions (set via `supabase secrets set`): `SUPABASE_URL`, `SUPABASE_SERVICE_ROLE_KEY`, `GEMINI_API_KEY`, `GEMINI_MODEL` (optional, defaults to `gemini-robotics-er-2-preview`), `TWILIO_ACCOUNT_SID`, `TWILIO_AUTH_TOKEN`, `SMS_WEBHOOK_URL` (optional), `REPORTER_SALT`, `ROBOT_API_KEY`, `DEMO_SALT` (request-demo hashing), `DEMO_ALLOWED_ORIGINS` (optional, comma-separated). `.env.example` lists them.
 
 `sms-glass` has JWT checks off (Twilio can't send one); it verifies `X-Twilio-Signature` instead.
 
